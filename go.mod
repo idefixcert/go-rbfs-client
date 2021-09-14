@@ -1,4 +1,4 @@
-module gitlab.rtbrick.net/martin/bricklet
+module github.com/rtbrick/go-rbfs-client
 
 go 1.16
 
