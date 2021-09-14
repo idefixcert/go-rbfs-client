@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/url"
 
-	"gitlab.rtbrick.net/martin/bricklet/pkg/rbfs/state"
+	"github.com/rtbrick/go-rbfs-client/pkg/rbfs/state"
 )
 
 const (

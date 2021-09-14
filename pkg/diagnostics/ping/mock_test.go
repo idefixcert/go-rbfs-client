@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/rtbrick/go-rbfs-client/pkg/rbfs/state"
 	"github.com/stretchr/testify/mock"
-	"gitlab.rtbrick.net/martin/bricklet/pkg/rbfs/state"
 )
 
 // ensure, that mockActionsAPI does implement ActionsAPI.

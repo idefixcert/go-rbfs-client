@@ -10,9 +10,9 @@ import (
 
 	"github.com/stretchr/testify/mock"
 
+	"github.com/rtbrick/go-rbfs-client/pkg/rbfs/commons"
+	"github.com/rtbrick/go-rbfs-client/pkg/rbfs/state"
 	"github.com/stretchr/testify/require"
-	"gitlab.rtbrick.net/martin/bricklet/pkg/rbfs/commons"
-	"gitlab.rtbrick.net/martin/bricklet/pkg/rbfs/state"
 )
 
 //nolint:dupl //it's a unit test

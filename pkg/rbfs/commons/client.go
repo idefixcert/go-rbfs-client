@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"sync"
 
-	"gitlab.rtbrick.net/martin/bricklet/pkg/rbfs/state"
+	"github.com/rtbrick/go-rbfs-client/pkg/rbfs/state"
 )
 
 var clients = make(map[string]*state.APIClient)

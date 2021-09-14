@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"gitlab.rtbrick.net/martin/bricklet/pkg/rbfs/commons"
-	"gitlab.rtbrick.net/martin/bricklet/pkg/rbfs/state"
+	"github.com/rtbrick/go-rbfs-client/pkg/rbfs/commons"
+	"github.com/rtbrick/go-rbfs-client/pkg/rbfs/state"
 )
 
 var (
