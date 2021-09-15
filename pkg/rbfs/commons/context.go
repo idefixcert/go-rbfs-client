@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2021, RtBrick, Inc.
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 package commons
 
 import (
@@ -46,7 +51,7 @@ func RbfsAccessToken(token string) RbfsContextOption {
 
 // NewRbfsContext creates a new RBFS context from the given context to access an RBFS instance available under the
 // given endpointURL with the specified elementName and the request options.
-func NewRbfsContext(ctx context.Context, endpointURL *url.URL, elementName string, options ...RbfsContextOption) (RbfsContext, error) {
+func NewRbfsContext(ctx context.Context, endpointURL *url.URL, elementName string, options ...RbfsContextOption) (*rbfsContext, error) {
 	ctx = context.WithValue(ctx, ctrldURLKey, endpointURL)
 	ctx = context.WithValue(ctx, elementNameKey, elementName)
 	var err error
@@ -61,7 +66,7 @@ func NewRbfsContext(ctx context.Context, endpointURL *url.URL, elementName strin
 }
 
 // MustRbfsContext creates a new RBFS context from the given context.
-func MustRbfsContext(ctx context.Context) RbfsContext {
+func MustRbfsContext(ctx context.Context) *rbfsContext {
 	_, ok := ctx.Value(ctrldURLKey).(*url.URL)
 	if !ok {
 		panic("ctrldEndpoint not set")
@@ -77,8 +82,8 @@ func (r *rbfsContext) GetServiceEndpoint(serviceName string) (*url.URL, error) {
 	if serviceName == "" {
 		return nil, fmt.Errorf("empty service name is not supported")
 	}
-	ctrldEndpoint := r.Context.Value(ctrldURLKey).(*url.URL)
-	elementName := r.Context.Value(elementNameKey).(string)
+	ctrldEndpoint := r.Value(ctrldURLKey).(*url.URL)
+	elementName := r.Value(elementNameKey).(string)
 	serviceEndpoint := fmt.Sprintf("%v/api/v1/rbfs/elements/%v/services/%v/proxy", ctrldEndpoint, elementName, serviceName)
 
 	return url.Parse(serviceEndpoint)

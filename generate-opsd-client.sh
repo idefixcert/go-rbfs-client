@@ -1,5 +1,10 @@
 #! /bin/bash
 
+#
+# Copyright (C) 2021, RtBrick, Inc.
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
 wget https://documents.rtbrick.com/21_8_1/api/api/swagger_opsd.yaml -O opsd-openapi.yaml
 
 # Generate OPSD client from OPSD OpenAPI specification
@@ -16,3 +21,6 @@ rm ./pkg/rbfs/state/README.md
 rm -rf ./pkg/rbfs/state/docs
 rm -rf ./pkg/rbfs/state/api
 rm opsd-openapi.yaml
+
+#format the code
+gofmt -w .

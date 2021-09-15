@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2021, RtBrick, Inc.
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 package ping
 
 import (

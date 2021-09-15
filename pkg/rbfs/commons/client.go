@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2021, RtBrick, Inc.
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
 package commons
 
 import (
@@ -13,7 +18,6 @@ var x = &sync.Mutex{}
 
 // GetAPIClient creates a new API client for the given endpoint.
 func GetAPIClient(client *http.Client, endpoint *url.URL) *state.APIClient {
-	// TODO Cache API client, because it is supposed to be only a few per pod?
 	host := endpoint.Host
 
 	apiClient := clients[host]
