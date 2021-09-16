@@ -12,12 +12,11 @@ package state
 import (
 	"context"
 	"fmt"
+	"github.com/antihax/optional"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
-
-	"github.com/antihax/optional"
 )
 
 // Linger please
@@ -201,6 +200,7 @@ func (a *A10NSPApiService) A10nspL2xLagInterfaceNameGet(ctx context.Context, lag
 A10NSPApiService Updates all L2X endpoint configurations for a LAG interface.
 Updates all L2X endpoint configurations for a LAG interface by  - adding new L2X endpoints, - updating existing L2X endpoints and - removing all L2X endpoints not listed in the request entity anymore.  An empty array removes all L2X endpoints from the specified LAG interface.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param lagInterfaceName The link aggregation (LAG) interface name.
  * @param optional nil or *A10NSPApiA10nspL2xLagInterfaceNamePutOpts - Optional Parameters:
      * @param "Body" (optional.Interface of []A10nspConfig) -
 
@@ -210,7 +210,7 @@ type A10NSPApiA10nspL2xLagInterfaceNamePutOpts struct {
 	Body optional.Interface
 }
 
-func (a *A10NSPApiService) A10nspL2xLagInterfaceNamePut(ctx context.Context, localVarOptionals *A10NSPApiA10nspL2xLagInterfaceNamePutOpts) (*http.Response, error) {
+func (a *A10NSPApiService) A10nspL2xLagInterfaceNamePut(ctx context.Context, lagInterfaceName string, localVarOptionals *A10NSPApiA10nspL2xLagInterfaceNamePutOpts) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -220,6 +220,7 @@ func (a *A10NSPApiService) A10nspL2xLagInterfaceNamePut(ctx context.Context, loc
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/a10nsp/l2x/{lag_interface_name}"
+	localVarPath = strings.Replace(localVarPath, "{"+"lag_interface_name"+"}", fmt.Sprintf("%v", lagInterfaceName), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

@@ -9,11 +9,19 @@
  */
 package state
 
-// The subscriber QoS settings.
-type SubscriberQosProfile struct {
-	// The QoS profile name.
-	QosProfileName string                        `json:"qos_profile_name,omitempty"`
-	Policers       *SubscriberQosProfilePolicers `json:"policers,omitempty"`
-	// The applied shapers.
-	Shapers map[string]SubscriberQosShaper `json:"shapers,omitempty"`
+// BGP peerings grouped by instance.
+type BgpPeerings struct {
+	// BGP instance name
+	InstanceName string `json:"instance_name,omitempty"`
+	// The local AS number.
+	Asn int32 `json:"asn,omitempty"`
+	// The local router identifier.
+	RouterId string `json:"router_id,omitempty"`
+	// The BGP host name.
+	HostName string `json:"host_name,omitempty"`
+	// The BGP domain name.
+	DomainName string `json:"domain_name,omitempty"`
+	// The BGP cluster ID.
+	ClusterId string          `json:"cluster_id,omitempty"`
+	Peerings  []BgpPeeringRef `json:"peerings,omitempty"`
 }

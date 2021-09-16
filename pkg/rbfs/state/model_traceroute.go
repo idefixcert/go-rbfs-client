@@ -11,9 +11,9 @@ package state
 
 // The traceoute output
 type Traceroute struct {
-	Traceroute *TracerouteTraceroute `json:"traceroute,omitempty"`
+	Traceroute *TracerouteArguments `json:"traceroute,omitempty"`
 	// Array of hops to reach the destination.
-	Hops []TracerouteHops `json:"hops,omitempty"`
+	Hops []TracerouteHop `json:"hops,omitempty"`
 	// The command to run traceroute in the RBFS CLI.
 	Command string `json:"command,omitempty"`
 	// The traceroute command output. One item per line.

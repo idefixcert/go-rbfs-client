@@ -9,16 +9,10 @@
  */
 package state
 
-// A policer level.
+// The applied policers ordered by their respective level.
 type SubscriberQosProfilePolicers struct {
-	// The policer level.
-	PolicerLevel int32 `json:"policer_level,omitempty"`
-	// The committed information rate (CIR) in kbps.
-	CirKbps int32 `json:"cir_kbps,omitempty"`
-	// The comitted burst size (CBS) in kbps.
-	CbsKbps int32 `json:"cbs_kbps,omitempty"`
-	// The peak information rate (PIR) in kbps.
-	PirKbps int32 `json:"pir_kbps,omitempty"`
-	// The peak burst size (PBS) in kbps.
-	PbsKbps int32 `json:"pbs_kbps,omitempty"`
+	Level1 *SubscriberQosPolicer `json:"level_1,omitempty"`
+	Level2 *SubscriberQosPolicer `json:"level_2,omitempty"`
+	Level3 *SubscriberQosPolicer `json:"level_3,omitempty"`
+	Level4 *SubscriberQosPolicer `json:"level_4,omitempty"`
 }

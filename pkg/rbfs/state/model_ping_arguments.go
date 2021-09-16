@@ -9,11 +9,18 @@
  */
 package state
 
-// The subscriber QoS settings.
-type SubscriberQosProfile struct {
-	// The QoS profile name.
-	QosProfileName string                        `json:"qos_profile_name,omitempty"`
-	Policers       *SubscriberQosProfilePolicers `json:"policers,omitempty"`
-	// The applied shapers.
-	Shapers map[string]SubscriberQosShaper `json:"shapers,omitempty"`
+// The arguments of the executed ping command.
+type PingArguments struct {
+	// The pinged destination IP address.
+	DestinationIp string `json:"destination_ip,omitempty"`
+	// The source IP address.
+	SourceIp string `json:"source_ip,omitempty"`
+	// The egress interface name.
+	SourceIfl string `json:"source_ifl,omitempty"`
+	// The routing instance name.
+	InstanceName string `json:"instance_name,omitempty"`
+	// The interval between two pings.
+	Interval float32 `json:"interval,omitempty"`
+	// The number of pings sent.
+	Count int32 `json:"count,omitempty"`
 }

@@ -18,6 +18,8 @@ type BgpPeeringRef struct {
 	LastStateTransition string `json:"last_state_transition,omitempty"`
 	// Last session reset reason.
 	LastResetReason string `json:"last_reset_reason,omitempty"`
+	// The local AS number.
+	Asn int32 `json:"asn,omitempty"`
 	// Number of BGP session flaps.
 	BgpSessionFlaps int32  `json:"bgp_session_flaps,omitempty"`
 	IflName         string `json:"ifl_name,omitempty"`

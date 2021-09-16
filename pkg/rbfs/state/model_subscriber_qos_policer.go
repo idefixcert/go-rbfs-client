@@ -9,11 +9,14 @@
  */
 package state
 
-// The subscriber QoS settings.
-type SubscriberQosProfile struct {
-	// The QoS profile name.
-	QosProfileName string                        `json:"qos_profile_name,omitempty"`
-	Policers       *SubscriberQosProfilePolicers `json:"policers,omitempty"`
-	// The applied shapers.
-	Shapers map[string]SubscriberQosShaper `json:"shapers,omitempty"`
+// Subscriber QoS policer settings.
+type SubscriberQosPolicer struct {
+	// The committed information rate (CIR) in kbps.
+	CirKbps int32 `json:"cir_kbps,omitempty"`
+	// The comitted burst size (CBS) in kbps.
+	CbsKbps int32 `json:"cbs_kbps,omitempty"`
+	// The peak information rate (PIR) in kbps.
+	PirKbps int32 `json:"pir_kbps,omitempty"`
+	// The peak burst size (PBS) in kbps.
+	PbsKbps int32 `json:"pbs_kbps,omitempty"`
 }

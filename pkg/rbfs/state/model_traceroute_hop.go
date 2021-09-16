@@ -9,11 +9,15 @@
  */
 package state
 
-// The subscriber QoS settings.
-type SubscriberQosProfile struct {
-	// The QoS profile name.
-	QosProfileName string                        `json:"qos_profile_name,omitempty"`
-	Policers       *SubscriberQosProfilePolicers `json:"policers,omitempty"`
-	// The applied shapers.
-	Shapers map[string]SubscriberQosShaper `json:"shapers,omitempty"`
+type TracerouteHop struct {
+	// The hop sequence number.
+	Seq int32 `json:"seq,omitempty"`
+	// The hop IPv4 or IPv6 addresses.
+	Hop string `json:"hop,omitempty"`
+	// Round-trip time (RTT) in seconds of the first packet sent by traceroute.
+	Rtt1 float64 `json:"rtt_1,omitempty"`
+	// Round-trip time (RTT) in seconds of the second packet sent by traceroute.
+	Rtt2 float64 `json:"rtt_2,omitempty"`
+	// Round-trip time (RTT) in seconds of the third packet sent by traceroute.
+	Rtt3 float64 `json:"rtt_3,omitempty"`
 }

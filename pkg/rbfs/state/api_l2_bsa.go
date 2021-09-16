@@ -451,6 +451,7 @@ func (a *L2BSAApiService) L2bsaIfpNameGet(ctx context.Context, ifpName string) (
 L2BSAApiService Updates all L2BSA services on the given physical interface
 Updates all L2BSA services provisioned on the given physical interface of this switch by  - adding new L2BSA services,  - updating existing L2BSA services and  - removing L2BSA services not included in the request entity.  An empty request removes all L2BSA services from the given physical interface.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param ifpName The physical interface name.
  * @param optional nil or *L2BSAApiL2bsaIfpNamePutOpts - Optional Parameters:
      * @param "Body" (optional.Interface of []L2bsaServiceConfig) -
 @return []L2bsaServiceConfig
@@ -460,7 +461,7 @@ type L2BSAApiL2bsaIfpNamePutOpts struct {
 	Body optional.Interface
 }
 
-func (a *L2BSAApiService) L2bsaIfpNamePut(ctx context.Context, localVarOptionals *L2BSAApiL2bsaIfpNamePutOpts) ([]L2bsaServiceConfig, *http.Response, error) {
+func (a *L2BSAApiService) L2bsaIfpNamePut(ctx context.Context, ifpName string, localVarOptionals *L2BSAApiL2bsaIfpNamePutOpts) ([]L2bsaServiceConfig, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Put")
 		localVarPostBody    interface{}
@@ -471,6 +472,7 @@ func (a *L2BSAApiService) L2bsaIfpNamePut(ctx context.Context, localVarOptionals
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/l2bsa/{ifp_name}"
+	localVarPath = strings.Replace(localVarPath, "{"+"ifp_name"+"}", fmt.Sprintf("%v", ifpName), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

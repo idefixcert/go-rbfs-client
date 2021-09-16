@@ -9,11 +9,10 @@
  */
 package state
 
-// The subscriber QoS settings.
-type SubscriberQosProfile struct {
-	// The QoS profile name.
-	QosProfileName string                        `json:"qos_profile_name,omitempty"`
-	Policers       *SubscriberQosProfilePolicers `json:"policers,omitempty"`
-	// The applied shapers.
-	Shapers map[string]SubscriberQosShaper `json:"shapers,omitempty"`
+// Subscriber QoS shaper settings
+type SubscriberQosShaper struct {
+	// The low rate in kbps.
+	RateLowKbps int32 `json:"rate_low_kbps,omitempty"`
+	// The high rate in kbps.
+	RateHighKbps int32 `json:"rate_high_kbps,omitempty"`
 }

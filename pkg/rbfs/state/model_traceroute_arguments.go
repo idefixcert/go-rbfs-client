@@ -9,11 +9,19 @@
  */
 package state
 
-// The subscriber QoS settings.
-type SubscriberQosProfile struct {
-	// The QoS profile name.
-	QosProfileName string                        `json:"qos_profile_name,omitempty"`
-	Policers       *SubscriberQosProfilePolicers `json:"policers,omitempty"`
-	// The applied shapers.
-	Shapers map[string]SubscriberQosShaper `json:"shapers,omitempty"`
+// The traceroute parameters
+type TracerouteArguments struct {
+	// The destination IPv4 or IPv6 address.
+	DestinationIp string `json:"destination_ip,omitempty"`
+	InstanceName  string `json:"instance_name,omitempty"`
+	// The source IPv4 or IPv6 address.
+	SourceIp string `json:"source_ip,omitempty"`
+	// The logical source interface.
+	SourceIfl string `json:"source_ifl,omitempty"`
+	// The maximum hops to reach the destination.
+	MaxHops string `json:"max_hops,omitempty"`
+	// The interval between to packages in seconds.
+	Interval float64 `json:"interval,omitempty"`
+	// The packet payload size in bytes.
+	Size float64 `json:"size,omitempty"`
 }

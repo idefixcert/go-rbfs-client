@@ -9,11 +9,13 @@
  */
 package state
 
-// The subscriber QoS settings.
-type SubscriberQosProfile struct {
-	// The QoS profile name.
-	QosProfileName string                        `json:"qos_profile_name,omitempty"`
-	Policers       *SubscriberQosProfilePolicers `json:"policers,omitempty"`
-	// The applied shapers.
-	Shapers map[string]SubscriberQosShaper `json:"shapers,omitempty"`
+// Ping counters.
+type PingStatistics struct {
+	// Number of pings sent.
+	Sent int32 `json:"sent,omitempty"`
+	// Number of pings received.
+	Received int32 `json:"received,omitempty"`
+	// Number of pings lost.
+	Lost int32              `json:"lost,omitempty"`
+	Rtt  *PingStatisticsRtt `json:"rtt,omitempty"`
 }

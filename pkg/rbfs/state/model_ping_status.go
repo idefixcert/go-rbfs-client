@@ -11,8 +11,8 @@ package state
 
 // Describes the results of pinging a given destination IP.
 type PingStatus struct {
-	Ping       *PingStatusPing       `json:"ping,omitempty"`
-	Statistics *PingStatusStatistics `json:"statistics,omitempty"`
+	Ping       *PingArguments  `json:"ping,omitempty"`
+	Statistics *PingStatistics `json:"statistics,omitempty"`
 	// The command to run the ping from the CLI
 	Command string `json:"command,omitempty"`
 	// The ping command output. One item per line.

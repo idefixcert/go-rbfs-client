@@ -423,15 +423,15 @@ func (a *BGPApiService) BgpInstancesInstanceNamePeeringsPeerIpGet(ctx context.Co
 BGPApiService Lists all BGP peerings grouped by instance.
 Provides a list of all BGP peerings of all BGP instances including the total count of received and sent prefixes.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-@return []BgpInstancePeeringsSummary
+@return []BgpPeerings
 */
-func (a *BGPApiService) BgpPeeringsGet(ctx context.Context) ([]BgpInstancePeeringsSummary, *http.Response, error) {
+func (a *BGPApiService) BgpPeeringsGet(ctx context.Context) ([]BgpPeerings, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
 		localVarFileName    string
 		localVarFileBytes   []byte
-		localVarReturnValue []BgpInstancePeeringsSummary
+		localVarReturnValue []BgpPeerings
 	)
 
 	// create path and map variables
@@ -488,7 +488,7 @@ func (a *BGPApiService) BgpPeeringsGet(ctx context.Context) ([]BgpInstancePeerin
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v []BgpInstancePeeringsSummary
+			var v []BgpPeerings
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

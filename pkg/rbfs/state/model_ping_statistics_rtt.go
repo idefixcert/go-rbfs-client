@@ -9,11 +9,16 @@
  */
 package state
 
-// The subscriber QoS settings.
-type SubscriberQosProfile struct {
-	// The QoS profile name.
-	QosProfileName string                        `json:"qos_profile_name,omitempty"`
-	Policers       *SubscriberQosProfilePolicers `json:"policers,omitempty"`
-	// The applied shapers.
-	Shapers map[string]SubscriberQosShaper `json:"shapers,omitempty"`
+// Round-trip time statistics.
+type PingStatisticsRtt struct {
+	// Minumum round-trip time.
+	Min float64 `json:"min,omitempty"`
+	// Average round-trip time.
+	Avg float64 `json:"avg,omitempty"`
+	// Maximum round-trip time.
+	Max float64 `json:"max,omitempty"`
+	// Round-trip time standard deviation.
+	Stddev float64 `json:"stddev,omitempty"`
+	// Total round-trip times to fire all pings.
+	Total float64 `json:"total,omitempty"`
 }
