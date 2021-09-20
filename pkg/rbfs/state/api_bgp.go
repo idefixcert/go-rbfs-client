@@ -339,7 +339,7 @@ Returns BGP peering details including summary statistics  of received and sent p
  * @param peerIp The BGP peering details.
 @return BgpPeering
 */
-func (a *BGPApiService) GetBGPPeeringDetails(ctx context.Context, instanceName string, peerIp string) (BgpPeering, *http.Response, error) {
+func (a *BGPApiService) GetBGPPeering(ctx context.Context, instanceName string, peerIp string) (BgpPeering, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
@@ -423,15 +423,15 @@ func (a *BGPApiService) GetBGPPeeringDetails(ctx context.Context, instanceName s
 BGPApiService Lists all BGP peerings grouped by instance.
 Provides a list of all BGP peerings of all BGP instances including the total count of received and sent prefixes.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-@return []BgpPeerings
+@return []BgpInstancePeerings
 */
-func (a *BGPApiService) GetBGPPeerings(ctx context.Context) ([]BgpPeerings, *http.Response, error) {
+func (a *BGPApiService) GetBGPPeerings(ctx context.Context) ([]BgpInstancePeerings, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
 		localVarFileName    string
 		localVarFileBytes   []byte
-		localVarReturnValue []BgpPeerings
+		localVarReturnValue []BgpInstancePeerings
 	)
 
 	// create path and map variables
@@ -488,7 +488,7 @@ func (a *BGPApiService) GetBGPPeerings(ctx context.Context) ([]BgpPeerings, *htt
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v []BgpPeerings
+			var v []BgpInstancePeerings
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

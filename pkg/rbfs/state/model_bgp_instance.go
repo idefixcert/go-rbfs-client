@@ -25,9 +25,9 @@ type BgpInstance struct {
 	// BGP version.
 	BgpVersion int32 `json:"bgp_version,omitempty"`
 	// The IP ToS (type of service) value set in all outgoing BGP packets.
-	BgpIpTos       int32                      `json:"bgp_ip_tos,omitempty"`
-	Capabilities   *BgpInstanceCapabilities   `json:"capabilities,omitempty"`
-	RouteSelection *BgpInstanceRouteSelection `json:"route_selection,omitempty"`
-	Timers         *BgpInstanceTimers         `json:"timers,omitempty"`
-	Peerings       *BgpInstancePeerings       `json:"peerings,omitempty"`
+	BgpIpTos       int32                       `json:"bgp_ip_tos,omitempty"`
+	Capabilities   *BgpInstanceCapabilities    `json:"capabilities,omitempty"`
+	RouteSelection *BgpInstanceRouteSelection  `json:"route_selection,omitempty"`
+	Timers         *BgpInstanceTimers          `json:"timers,omitempty"`
+	Peerings       *BgpInstancePeeringsSummary `json:"peerings,omitempty"`
 }

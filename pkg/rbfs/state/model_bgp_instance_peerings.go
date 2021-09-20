@@ -9,20 +9,19 @@
  */
 package state
 
-// A summary of the BGP instance peerings including the number of peerings per state and a reference to each peering. The reference allows obtaining the BPG peering details.
+// BGP peerings grouped by instance.
 type BgpInstancePeerings struct {
-	// Number of peerings in active state.
-	ActiveCount int32 `json:"active_count,omitempty"`
-	// Number of peerings in idle state.
-	IdleCount int32 `json:"idle_count,omitempty"`
-	// Number of peerings in connect state.
-	ConnectCount int32 `json:"connect_count,omitempty"`
-	// Number of peerings in opensent state.
-	OpensentCount int32 `json:"opensent_count,omitempty"`
-	// Number of peerings in openconfirm state.
-	OpenconfirmCount int32 `json:"openconfirm_count,omitempty"`
-	// Number of peerings in established state.
-	EstablishedCount int32 `json:"established_count,omitempty"`
-	// Array of BGP peering references.
-	Peers []BgpPeeringRef `json:"peers,omitempty"`
+	// BGP instance name
+	InstanceName string `json:"instance_name,omitempty"`
+	// The local AS number.
+	Asn int32 `json:"asn,omitempty"`
+	// The local router identifier.
+	RouterId string `json:"router_id,omitempty"`
+	// The BGP host name.
+	HostName string `json:"host_name,omitempty"`
+	// The BGP domain name.
+	DomainName string `json:"domain_name,omitempty"`
+	// The BGP cluster ID.
+	ClusterId string               `json:"cluster_id,omitempty"`
+	Peerings  *BgpInstancePeerings `json:"peerings,omitempty"`
 }
