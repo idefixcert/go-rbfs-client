@@ -615,7 +615,7 @@ Provides details of a logical interface including VLANs, IP addresses, administr
  * @param iflName The logical interface name.
 @return LogicalInterface
 */
-func (a *InterfacesApiService) GetLogicalInterfaces(ctx context.Context, iflName string) (LogicalInterface, *http.Response, error) {
+func (a *InterfacesApiService) GetLogicalInterface(ctx context.Context, iflName string) (LogicalInterface, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
