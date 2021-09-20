@@ -14,12 +14,16 @@ import (
 )
 
 const (
-	ctrldURLKey    = contextKey("CtrldURL")
-	elementNameKey = contextKey("ElementName")
+	ctrldURLKey          = contextKey("CtrldURL")
+	elementNameKey       = contextKey("ElementName")
+	OpsdServiceName      = ServiceName("opsd")
+	RestconfdServiceName = ServiceName("restconfd")
 )
 
 type (
 	contextKey string
+
+	ServiceName string
 
 	// RbfsContext provides access to all request-specific settings to invoke the RBFS REST API.
 	// It is also a go context that allows cancelling a request.
@@ -27,7 +31,7 @@ type (
 		context.Context
 
 		// GetServiceEndpoint computes the REST API endpoint for the given service.
-		GetServiceEndpoint(serviceName string) (*url.URL, error)
+		GetServiceEndpoint(ServiceName) (*url.URL, error)
 	}
 
 	rbfsContext struct {
@@ -78,7 +82,7 @@ func MustRbfsContext(ctx context.Context) *rbfsContext {
 	return &rbfsContext{Context: ctx}
 }
 
-func (r *rbfsContext) GetServiceEndpoint(serviceName string) (*url.URL, error) {
+func (r *rbfsContext) GetServiceEndpoint(serviceName ServiceName) (*url.URL, error) {
 	if serviceName == "" {
 		return nil, fmt.Errorf("empty service name is not supported")
 	}
