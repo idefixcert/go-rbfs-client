@@ -42,7 +42,7 @@ func Test_defaultService_Run(t *testing.T) {
 				return p
 			},
 			setup: func(t *testing.T, actionApi *mockActionsAPI) {
-				actionApi.On("ActionsPingPost", mock.Anything, "http://rtbrick.com", mock.Anything).
+				actionApi.On("Ping", mock.Anything, "http://rtbrick.com", mock.Anything).
 					Return(state.PingStatus{Command: "http://rtbrick.com"}, nil)
 			},
 			want: state.PingStatus{Command: "http://rtbrick.com"},
@@ -54,7 +54,7 @@ func Test_defaultService_Run(t *testing.T) {
 				return p
 			},
 			setup: func(t *testing.T, actionApi *mockActionsAPI) {
-				actionApi.On("ActionsPingPost", mock.Anything, "http://rtbrick.com", mock.Anything).
+				actionApi.On("Ping", mock.Anything, "http://rtbrick.com", mock.Anything).
 					Return(state.PingStatus{}, fmt.Errorf("test"))
 			},
 			wantErr: true,
@@ -111,10 +111,10 @@ func Test_defaultService_RunAll(t *testing.T) {
 				return result
 			},
 			setup: func(t *testing.T, actionApi *mockActionsAPI) {
-				actionApi.On("ActionsPingPost", mock.Anything, "http://rtbrick.com", mock.Anything).
+				actionApi.On("Ping", mock.Anything, "http://rtbrick.com", mock.Anything).
 					Return(state.PingStatus{Command: "http://rtbrick.com"}, nil).
 					Run(func(args mock.Arguments) { time.Sleep(time.Second * 3) })
-				actionApi.On("ActionsPingPost", mock.Anything, "http://google.de", mock.Anything).
+				actionApi.On("Ping", mock.Anything, "http://google.de", mock.Anything).
 					Return(state.PingStatus{Command: "http://google.de"}, nil).
 					Run(func(args mock.Arguments) { time.Sleep(time.Second * 2) })
 			},
@@ -129,7 +129,7 @@ func Test_defaultService_RunAll(t *testing.T) {
 				return result
 			},
 			setup: func(t *testing.T, actionApi *mockActionsAPI) {
-				actionApi.On("ActionsPingPost", mock.Anything, "http://rtbrick.com", mock.Anything).
+				actionApi.On("Ping", mock.Anything, "http://rtbrick.com", mock.Anything).
 					Return(state.PingStatus{}, fmt.Errorf("test"))
 			},
 			wantErr: true,

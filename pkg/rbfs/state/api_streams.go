@@ -30,7 +30,7 @@ StreamsApiService Pings the given destination IP address.
 Pings the given IPv4 or IPv6 destination IP address  from the specified source IP or source IFL with the provided settings. Streams the ping output line-by-line in plain text.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param destinationIp Destination IPv4 or IPv6 address
- * @param optional nil or *StreamsApiStreamsPingPostOpts - Optional Parameters:
+ * @param optional nil or *StreamsApiStreamPingOpts - Optional Parameters:
      * @param "SourceIp" (optional.String) -  Source IPv4 or IPv6 address
      * @param "SourceIfl" (optional.String) -  Source interface name.
      * @param "InstanceName" (optional.String) -  Routing instance name
@@ -41,7 +41,7 @@ Pings the given IPv4 or IPv6 destination IP address  from the specified source I
 @return string
 */
 
-type StreamsApiStreamsPingPostOpts struct {
+type StreamsApiStreamPingOpts struct {
 	SourceIp     optional.String
 	SourceIfl    optional.String
 	InstanceName optional.String
@@ -51,7 +51,7 @@ type StreamsApiStreamsPingPostOpts struct {
 	Ttl          optional.Int32
 }
 
-func (a *StreamsApiService) StreamsPingPost(ctx context.Context, destinationIp string, localVarOptionals *StreamsApiStreamsPingPostOpts) (string, *http.Response, error) {
+func (a *StreamsApiService) StreamPing(ctx context.Context, destinationIp string, localVarOptionals *StreamsApiStreamPingOpts) (string, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Post")
 		localVarPostBody    interface{}
@@ -153,10 +153,10 @@ func (a *StreamsApiService) StreamsPingPost(ctx context.Context, destinationIp s
 
 /*
 StreamsApiService Traces the route to the given destination IP address.
-Traces the route to the given IPv4 or IPv6 destination IP address  from the specified source IP or source IFL with the provided settings. Streams the ping output line-by-line in plain text.
+Traces the route to the given IPv4 or IPv6 destination IP address  from the specified source IP or source IFL with the provided settings. Streams the traceroute output line-by-line in plain text.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param destinationIp Destination IPv4 or IPv6 address
- * @param optional nil or *StreamsApiStreamsTraceroutePostOpts - Optional Parameters:
+ * @param optional nil or *StreamsApiStreamTracerouteOpts - Optional Parameters:
      * @param "SourceIp" (optional.String) -  Source IPv4 or IPv6 address
      * @param "SourceIfl" (optional.String) -  Source interface name.
      * @param "InstanceName" (optional.String) -  Routing instance name
@@ -166,7 +166,7 @@ Traces the route to the given IPv4 or IPv6 destination IP address  from the spec
 @return string
 */
 
-type StreamsApiStreamsTraceroutePostOpts struct {
+type StreamsApiStreamTracerouteOpts struct {
 	SourceIp     optional.String
 	SourceIfl    optional.String
 	InstanceName optional.String
@@ -175,7 +175,7 @@ type StreamsApiStreamsTraceroutePostOpts struct {
 	Interval     optional.Float32
 }
 
-func (a *StreamsApiService) StreamsTraceroutePost(ctx context.Context, destinationIp string, localVarOptionals *StreamsApiStreamsTraceroutePostOpts) (string, *http.Response, error) {
+func (a *StreamsApiService) StreamTraceroute(ctx context.Context, destinationIp string, localVarOptionals *StreamsApiStreamTracerouteOpts) (string, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Post")
 		localVarPostBody    interface{}

@@ -26,11 +26,11 @@ var (
 type ActionsApiService service
 
 /*
-ActionsApiService Pings the given destination IP address.
-Pings the given IPv4 or IPv6 destination IP address  from the specified source IP or source IFL with the provided settings.
+ActionsApiService Pings the given destination.
+Pings the given destination from the specified source IP or source IFL with the provided settings. Either the input is an IPv4 or IPv6 address, or it is considered as an domain name. The domain name is resolved via dns A record lookup, the first entry will be taken.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param destinationIp Destination IPv4 or IPv6 address
- * @param optional nil or *ActionsApiActionsPingPostOpts - Optional Parameters:
+ * @param destinationIp Destination IPv4 address, IPv6 address or domain name
+ * @param optional nil or *ActionsApiPingOpts - Optional Parameters:
      * @param "SourceIp" (optional.String) -  Source IPv4 or IPv6 address
      * @param "SourceIfl" (optional.String) -  Source interface name.
      * @param "InstanceName" (optional.String) -  Routing instance name
@@ -41,7 +41,7 @@ Pings the given IPv4 or IPv6 destination IP address  from the specified source I
 @return PingStatus
 */
 
-type ActionsApiActionsPingPostOpts struct {
+type ActionsApiPingOpts struct {
 	SourceIp     optional.String
 	SourceIfl    optional.String
 	InstanceName optional.String
@@ -51,7 +51,7 @@ type ActionsApiActionsPingPostOpts struct {
 	Ttl          optional.Int32
 }
 
-func (a *ActionsApiService) ActionsPingPost(ctx context.Context, destinationIp string, localVarOptionals *ActionsApiActionsPingPostOpts) (PingStatus, *http.Response, error) {
+func (a *ActionsApiService) Ping(ctx context.Context, destinationIp string, localVarOptionals *ActionsApiPingOpts) (PingStatus, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Post")
 		localVarPostBody    interface{}
@@ -156,7 +156,7 @@ ActionsApiService Traces the route to the given destination IP address.
 Traces the route to the given IPv4 or IPv6 destination IP address  from the specified source IP or source IFL with the provided settings.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param destinationIp Destination IPv4 or IPv6 address
- * @param optional nil or *ActionsApiActionsTraceroutePostOpts - Optional Parameters:
+ * @param optional nil or *ActionsApiTracerouteOpts - Optional Parameters:
      * @param "SourceIp" (optional.String) -  Source IPv4 or IPv6 address
      * @param "SourceIfl" (optional.String) -  Source interface name.
      * @param "InstanceName" (optional.String) -  Routing instance name
@@ -166,7 +166,7 @@ Traces the route to the given IPv4 or IPv6 destination IP address  from the spec
 @return Traceroute
 */
 
-type ActionsApiActionsTraceroutePostOpts struct {
+type ActionsApiTracerouteOpts struct {
 	SourceIp     optional.String
 	SourceIfl    optional.String
 	InstanceName optional.String
@@ -175,7 +175,7 @@ type ActionsApiActionsTraceroutePostOpts struct {
 	Interval     optional.Float32
 }
 
-func (a *ActionsApiService) ActionsTraceroutePost(ctx context.Context, destinationIp string, localVarOptionals *ActionsApiActionsTraceroutePostOpts) (Traceroute, *http.Response, error) {
+func (a *ActionsApiService) Traceroute(ctx context.Context, destinationIp string, localVarOptionals *ActionsApiTracerouteOpts) (Traceroute, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Post")
 		localVarPostBody    interface{}

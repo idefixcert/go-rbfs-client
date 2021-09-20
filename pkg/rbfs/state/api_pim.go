@@ -12,7 +12,6 @@ package state
 import (
 	"context"
 	"fmt"
-	"github.com/antihax/optional"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -24,29 +23,27 @@ var (
 	_ context.Context
 )
 
-type A10NSPApiService service
+type PIMApiService service
 
 /*
-A10NSPApiService Shows an L2X endpoint.
-Shows the configuration of the L2X endpoint configured on the specified LAG interface with the specified S-VLAN.
+PIMApiService Returns a PIM instance.
+Returns the PIM settings of the routing instance with the given instance name.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param lagInterfaceName The link aggregation (LAG) interface name.
- * @param sVlan The ANP VLAN ID.
-@return []A10nspConfig
+ * @param instanceName The PIM instance name
+@return PimInstance
 */
-func (a *A10NSPApiService) GetA10NSPL2XEndpoint(ctx context.Context, lagInterfaceName string, sVlan int32) ([]A10nspConfig, *http.Response, error) {
+func (a *PIMApiService) GetPIMInstance(ctx context.Context, instanceName string) (PimInstance, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
 		localVarFileName    string
 		localVarFileBytes   []byte
-		localVarReturnValue []A10nspConfig
+		localVarReturnValue PimInstance
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/a10nsp/l2x/{lag_interface_name}/{s_vlan}"
-	localVarPath = strings.Replace(localVarPath, "{"+"lag_interface_name"+"}", fmt.Sprintf("%v", lagInterfaceName), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"s_vlan"+"}", fmt.Sprintf("%v", sVlan), -1)
+	localVarPath := a.client.cfg.BasePath + "/pim/instances/{instance_name}"
+	localVarPath = strings.Replace(localVarPath, "{"+"instance_name"+"}", fmt.Sprintf("%v", instanceName), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -99,7 +96,7 @@ func (a *A10NSPApiService) GetA10NSPL2XEndpoint(ctx context.Context, lagInterfac
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v []A10nspConfig
+			var v PimInstance
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -115,22 +112,22 @@ func (a *A10NSPApiService) GetA10NSPL2XEndpoint(ctx context.Context, lagInterfac
 }
 
 /*
-A10NSPApiService Lists all L2X endpoints.
-List all L2X endpoints configured on this A10-NSP switch.
+PIMApiService Lists all PIM instances.
+Lists all routing instances with PIM enabled.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-@return []A10nspConfig
+@return PimInstanceRef
 */
-func (a *A10NSPApiService) GetA10NSPL2XEndpoints(ctx context.Context) ([]A10nspConfig, *http.Response, error) {
+func (a *PIMApiService) GetPIMInstances(ctx context.Context) (PimInstanceRef, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
 		localVarFileName    string
 		localVarFileBytes   []byte
-		localVarReturnValue []A10nspConfig
+		localVarReturnValue PimInstanceRef
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/a10nsp/l2x"
+	localVarPath := a.client.cfg.BasePath + "/pim/instances"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -183,7 +180,7 @@ func (a *A10NSPApiService) GetA10NSPL2XEndpoints(ctx context.Context) ([]A10nspC
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v []A10nspConfig
+			var v PimInstanceRef
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -199,24 +196,26 @@ func (a *A10NSPApiService) GetA10NSPL2XEndpoints(ctx context.Context) ([]A10nspC
 }
 
 /*
-A10NSPApiService Lists all L2X endpoints.
-List all L2X endpoints configured on the specified LAG interface.
+PIMApiService Returns the PIM interface.
+Returns the PIM settings of the logical interface with the given name  configured in the given instance.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param lagInterfaceName The link aggregation (LAG) interface name.
-@return []A10nspConfig
+ * @param instanceName The PIM instance name
+ * @param iflName The logical interface name.
+@return PimInterface
 */
-func (a *A10NSPApiService) GetA10NSPL2XEndpointsOfLAGInterface(ctx context.Context, lagInterfaceName string) ([]A10nspConfig, *http.Response, error) {
+func (a *PIMApiService) GetPIMInterface(ctx context.Context, instanceName string, iflName string) (PimInterface, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
 		localVarFileName    string
 		localVarFileBytes   []byte
-		localVarReturnValue []A10nspConfig
+		localVarReturnValue PimInterface
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/a10nsp/l2x/{lag_interface_name}"
-	localVarPath = strings.Replace(localVarPath, "{"+"lag_interface_name"+"}", fmt.Sprintf("%v", lagInterfaceName), -1)
+	localVarPath := a.client.cfg.BasePath + "/pim/instances/{instance_name}/interfaces/{ifl_name}"
+	localVarPath = strings.Replace(localVarPath, "{"+"instance_name"+"}", fmt.Sprintf("%v", instanceName), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"ifl_name"+"}", fmt.Sprintf("%v", iflName), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -269,7 +268,7 @@ func (a *A10NSPApiService) GetA10NSPL2XEndpointsOfLAGInterface(ctx context.Conte
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v []A10nspConfig
+			var v PimInterface
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -285,25 +284,22 @@ func (a *A10NSPApiService) GetA10NSPL2XEndpointsOfLAGInterface(ctx context.Conte
 }
 
 /*
-A10NSPApiService Removes the L2X endpoint.
-Removes the L2X endpoints with the specified S-VLAN from the specified LAG interface.
+PIMApiService Lists all PIM interfaces.
+Lists all logical interfaces with PIM enabled grouped by routing instances.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param lagInterfaceName The link aggregation (LAG) interface name.
- * @param sVlan The ANP VLAN ID.
-
+@return PimInterfaces
 */
-func (a *A10NSPApiService) RemoveA10NSPL2XEndpoint(ctx context.Context, lagInterfaceName string, sVlan int32) (*http.Response, error) {
+func (a *PIMApiService) GetPIMInterfaces(ctx context.Context) (PimInterfaces, *http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("Delete")
-		localVarPostBody   interface{}
-		localVarFileName   string
-		localVarFileBytes  []byte
+		localVarHttpMethod  = strings.ToUpper("Get")
+		localVarPostBody    interface{}
+		localVarFileName    string
+		localVarFileBytes   []byte
+		localVarReturnValue PimInterfaces
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/a10nsp/l2x/{lag_interface_name}/{s_vlan}"
-	localVarPath = strings.Replace(localVarPath, "{"+"lag_interface_name"+"}", fmt.Sprintf("%v", lagInterfaceName), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"s_vlan"+"}", fmt.Sprintf("%v", sVlan), -1)
+	localVarPath := a.client.cfg.BasePath + "/pim/interfaces"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -319,7 +315,7 @@ func (a *A10NSPApiService) RemoveA10NSPL2XEndpoint(ctx context.Context, lagInter
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
+	localVarHttpHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
@@ -328,18 +324,26 @@ func (a *A10NSPApiService) RemoveA10NSPL2XEndpoint(ctx context.Context, lagInter
 	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHttpResponse, err := a.client.callAPI(r)
 	if err != nil || localVarHttpResponse == nil {
-		return localVarHttpResponse, err
+		return localVarReturnValue, localVarHttpResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
-		return localVarHttpResponse, err
+		return localVarReturnValue, localVarHttpResponse, err
+	}
+
+	if localVarHttpResponse.StatusCode < 300 {
+		// If we succeed, return the data, otherwise pass on to decode error.
+		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+		if err == nil {
+			return localVarReturnValue, localVarHttpResponse, err
+		}
 	}
 
 	if localVarHttpResponse.StatusCode >= 300 {
@@ -347,46 +351,50 @@ func (a *A10NSPApiService) RemoveA10NSPL2XEndpoint(ctx context.Context, lagInter
 			body:  localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		return localVarHttpResponse, newErr
+		if localVarHttpResponse.StatusCode == 200 {
+			var v PimInterfaces
+			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHttpResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
-	return localVarHttpResponse, nil
+	return localVarReturnValue, localVarHttpResponse, nil
 }
 
 /*
-A10NSPApiService Stores a L2X endpoint.
-Stores a L2X endpoints by either  creating a new L2X endpoint on the specified LAG interface with the specified S-VLAN or  updating an existing L2X endpoint configuration.
+PIMApiService Returns the PIM neighbor.
+Returns the PIM neighbor information for the neighbor with the given IP address  configured in the given instance.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param lagInterfaceName The link aggregation (LAG) interface name.
- * @param sVlan The ANP VLAN ID.
- * @param optional nil or *A10NSPApiStoreA10NSPL2XEndpointOpts - Optional Parameters:
-     * @param "Body" (optional.Interface of A10nspConfig) -
-
+ * @param instanceName The PIM instance name
+ * @param neighborIp The neighbor IPv4 or IPv6 address.
+@return PimNeighbor
 */
-
-type A10NSPApiStoreA10NSPL2XEndpointOpts struct {
-	Body optional.Interface
-}
-
-func (a *A10NSPApiService) StoreA10NSPL2XEndpoint(ctx context.Context, lagInterfaceName string, sVlan int32, localVarOptionals *A10NSPApiStoreA10NSPL2XEndpointOpts) (*http.Response, error) {
+func (a *PIMApiService) GetPIMNeighbor(ctx context.Context, instanceName string, neighborIp string) (PimNeighbor, *http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("Put")
-		localVarPostBody   interface{}
-		localVarFileName   string
-		localVarFileBytes  []byte
+		localVarHttpMethod  = strings.ToUpper("Get")
+		localVarPostBody    interface{}
+		localVarFileName    string
+		localVarFileBytes   []byte
+		localVarReturnValue PimNeighbor
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/a10nsp/l2x/{lag_interface_name}/{s_vlan}"
-	localVarPath = strings.Replace(localVarPath, "{"+"lag_interface_name"+"}", fmt.Sprintf("%v", lagInterfaceName), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"s_vlan"+"}", fmt.Sprintf("%v", sVlan), -1)
+	localVarPath := a.client.cfg.BasePath + "/pim/instances/{instance_name}/neighbors/{neighbor_ip}"
+	localVarPath = strings.Replace(localVarPath, "{"+"instance_name"+"}", fmt.Sprintf("%v", instanceName), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"neighbor_ip"+"}", fmt.Sprintf("%v", neighborIp), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{"application/json"}
+	localVarHttpContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -395,33 +403,35 @@ func (a *A10NSPApiService) StoreA10NSPL2XEndpoint(ctx context.Context, lagInterf
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
+	localVarHttpHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	// body params
-	if localVarOptionals != nil && localVarOptionals.Body.IsSet() {
-
-		localVarOptionalBody := localVarOptionals.Body.Value()
-		localVarPostBody = &localVarOptionalBody
-	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHttpResponse, err := a.client.callAPI(r)
 	if err != nil || localVarHttpResponse == nil {
-		return localVarHttpResponse, err
+		return localVarReturnValue, localVarHttpResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
-		return localVarHttpResponse, err
+		return localVarReturnValue, localVarHttpResponse, err
+	}
+
+	if localVarHttpResponse.StatusCode < 300 {
+		// If we succeed, return the data, otherwise pass on to decode error.
+		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+		if err == nil {
+			return localVarReturnValue, localVarHttpResponse, err
+		}
 	}
 
 	if localVarHttpResponse.StatusCode >= 300 {
@@ -429,42 +439,46 @@ func (a *A10NSPApiService) StoreA10NSPL2XEndpoint(ctx context.Context, lagInterf
 			body:  localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		return localVarHttpResponse, newErr
+		if localVarHttpResponse.StatusCode == 200 {
+			var v PimNeighbor
+			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHttpResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHttpResponse, newErr
+		}
+		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
-	return localVarHttpResponse, nil
+	return localVarReturnValue, localVarHttpResponse, nil
 }
 
 /*
-A10NSPApiService Updates all L2X endpoint configurations.
-Updates all L2X endpoint configurations by  - adding new L2X endpoints, - updating existing L2X endpoints and - removing all L2X endpoints not listed in the request entity anymore.  An empty array removes all L2X endpoints.
+PIMApiService Lists all PIM neighbors.
+Lists all PIM neighbors grouped by routing instances.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param optional nil or *A10NSPApiStoreA10NSPL2XEndpointsOpts - Optional Parameters:
-     * @param "Body" (optional.Interface of []A10nspConfig) -
-
+@return PimNeighbors
 */
-
-type A10NSPApiStoreA10NSPL2XEndpointsOpts struct {
-	Body optional.Interface
-}
-
-func (a *A10NSPApiService) StoreA10NSPL2XEndpoints(ctx context.Context, localVarOptionals *A10NSPApiStoreA10NSPL2XEndpointsOpts) (*http.Response, error) {
+func (a *PIMApiService) GetPIMNeighbors(ctx context.Context) (PimNeighbors, *http.Response, error) {
 	var (
-		localVarHttpMethod = strings.ToUpper("Put")
-		localVarPostBody   interface{}
-		localVarFileName   string
-		localVarFileBytes  []byte
+		localVarHttpMethod  = strings.ToUpper("Get")
+		localVarPostBody    interface{}
+		localVarFileName    string
+		localVarFileBytes   []byte
+		localVarReturnValue PimNeighbors
 	)
 
 	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/a10nsp/l2x"
+	localVarPath := a.client.cfg.BasePath + "/pim/neighbors"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{"application/json"}
+	localVarHttpContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -473,33 +487,35 @@ func (a *A10NSPApiService) StoreA10NSPL2XEndpoints(ctx context.Context, localVar
 	}
 
 	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
+	localVarHttpHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	// body params
-	if localVarOptionals != nil && localVarOptionals.Body.IsSet() {
-
-		localVarOptionalBody := localVarOptionals.Body.Value()
-		localVarPostBody = &localVarOptionalBody
-	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHttpResponse, err := a.client.callAPI(r)
 	if err != nil || localVarHttpResponse == nil {
-		return localVarHttpResponse, err
+		return localVarReturnValue, localVarHttpResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
 	localVarHttpResponse.Body.Close()
 	if err != nil {
-		return localVarHttpResponse, err
+		return localVarReturnValue, localVarHttpResponse, err
+	}
+
+	if localVarHttpResponse.StatusCode < 300 {
+		// If we succeed, return the data, otherwise pass on to decode error.
+		err = a.client.decode(&localVarReturnValue, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+		if err == nil {
+			return localVarReturnValue, localVarHttpResponse, err
+		}
 	}
 
 	if localVarHttpResponse.StatusCode >= 300 {
@@ -507,88 +523,18 @@ func (a *A10NSPApiService) StoreA10NSPL2XEndpoints(ctx context.Context, localVar
 			body:  localVarBody,
 			error: localVarHttpResponse.Status,
 		}
-		return localVarHttpResponse, newErr
-	}
-
-	return localVarHttpResponse, nil
-}
-
-/*
-A10NSPApiService Updates all L2X endpoint configurations for a LAG interface.
-Updates all L2X endpoint configurations for a LAG interface by  - adding new L2X endpoints, - updating existing L2X endpoints and - removing all L2X endpoints not listed in the request entity anymore.  An empty array removes all L2X endpoints from the specified LAG interface.
- * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param lagInterfaceName The link aggregation (LAG) interface name.
- * @param optional nil or *A10NSPApiStoreA10NSPL2XEndpointsForLAGInterfaceOpts - Optional Parameters:
-     * @param "Body" (optional.Interface of []A10nspConfig) -
-
-*/
-
-type A10NSPApiStoreA10NSPL2XEndpointsForLAGInterfaceOpts struct {
-	Body optional.Interface
-}
-
-func (a *A10NSPApiService) StoreA10NSPL2XEndpointsForLAGInterface(ctx context.Context, lagInterfaceName string, localVarOptionals *A10NSPApiStoreA10NSPL2XEndpointsForLAGInterfaceOpts) (*http.Response, error) {
-	var (
-		localVarHttpMethod = strings.ToUpper("Put")
-		localVarPostBody   interface{}
-		localVarFileName   string
-		localVarFileBytes  []byte
-	)
-
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/a10nsp/l2x/{lag_interface_name}"
-	localVarPath = strings.Replace(localVarPath, "{"+"lag_interface_name"+"}", fmt.Sprintf("%v", lagInterfaceName), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
-	if localVarHttpContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHttpContentType
-	}
-
-	// to determine the Accept header
-	localVarHttpHeaderAccepts := []string{}
-
-	// set Accept header
-	localVarHttpHeaderAccept := selectHeaderAccept(localVarHttpHeaderAccepts)
-	if localVarHttpHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
-	}
-	// body params
-	if localVarOptionals != nil && localVarOptionals.Body.IsSet() {
-
-		localVarOptionalBody := localVarOptionals.Body.Value()
-		localVarPostBody = &localVarOptionalBody
-	}
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHttpResponse, err := a.client.callAPI(r)
-	if err != nil || localVarHttpResponse == nil {
-		return localVarHttpResponse, err
-	}
-
-	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
-	localVarHttpResponse.Body.Close()
-	if err != nil {
-		return localVarHttpResponse, err
-	}
-
-	if localVarHttpResponse.StatusCode >= 300 {
-		newErr := GenericSwaggerError{
-			body:  localVarBody,
-			error: localVarHttpResponse.Status,
+		if localVarHttpResponse.StatusCode == 200 {
+			var v PimNeighbors
+			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHttpResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHttpResponse, newErr
 		}
-		return localVarHttpResponse, newErr
+		return localVarReturnValue, localVarHttpResponse, newErr
 	}
 
-	return localVarHttpResponse, nil
+	return localVarReturnValue, localVarHttpResponse, nil
 }

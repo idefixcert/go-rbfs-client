@@ -30,7 +30,7 @@ AccessApiService Adds a VLAN profile.
 Injects a single VLAN profile object into the global VLAN profile BDS table.  A VLAN profile has a composite key of up to 5 parameters, which are modelled as query parameters because of the many valid combinations. The keys specified in the VLAN profile must match the query parameters. Otherwise the request gets rejected.  This endpoint creates a VLAN profile object from the specified keys when no VLAN profile is specified.  This is a convenience function to simplify creation of VLAN profiles that consists of key attributes only.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param ifpName The physical interface.
- * @param optional nil or *AccessApiAccessVlanProfilesAddPostOpts - Optional Parameters:
+ * @param optional nil or *AccessApiAddVLANProfileOpts - Optional Parameters:
      * @param "Body" (optional.Interface of VlanProfileObject) -
      * @param "OuterVlanMin" (optional.Int32) -  The outer VLAN range minimum value.
      * @param "OuterVlanMax" (optional.Int32) -  The outer VLAN range maximum value.
@@ -39,7 +39,7 @@ Injects a single VLAN profile object into the global VLAN profile BDS table.  A 
 
 */
 
-type AccessApiAccessVlanProfilesAddPostOpts struct {
+type AccessApiAddVLANProfileOpts struct {
 	Body         optional.Interface
 	OuterVlanMin optional.Int32
 	OuterVlanMax optional.Int32
@@ -47,7 +47,7 @@ type AccessApiAccessVlanProfilesAddPostOpts struct {
 	InnerVlanMax optional.Int32
 }
 
-func (a *AccessApiService) AccessVlanProfilesAddPost(ctx context.Context, ifpName string, localVarOptionals *AccessApiAccessVlanProfilesAddPostOpts) (*http.Response, error) {
+func (a *AccessApiService) AddVLANProfile(ctx context.Context, ifpName string, localVarOptionals *AccessApiAddVLANProfileOpts) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -130,7 +130,7 @@ AccessApiService Deletes a VLAN profile.
 Deletes a single VLAN profile object from the global VLAN profile BDS table. Performs an exact match on the query parameters.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param ifpName The physical interface.
- * @param optional nil or *AccessApiAccessVlanProfilesDeletePostOpts - Optional Parameters:
+ * @param optional nil or *AccessApiDeleteVLANProfileOpts - Optional Parameters:
      * @param "OuterVlanMin" (optional.Int32) -  The outer VLAN range minimum value.
      * @param "OuterVlanMax" (optional.Int32) -  The outer VLAN range maximum value.
      * @param "InnerVlanMin" (optional.Int32) -  The inner VLAN range minimum value.
@@ -138,14 +138,14 @@ Deletes a single VLAN profile object from the global VLAN profile BDS table. Per
 
 */
 
-type AccessApiAccessVlanProfilesDeletePostOpts struct {
+type AccessApiDeleteVLANProfileOpts struct {
 	OuterVlanMin optional.Int32
 	OuterVlanMax optional.Int32
 	InnerVlanMin optional.Int32
 	InnerVlanMax optional.Int32
 }
 
-func (a *AccessApiService) AccessVlanProfilesDeletePost(ctx context.Context, ifpName string, localVarOptionals *AccessApiAccessVlanProfilesDeletePostOpts) (*http.Response, error) {
+func (a *AccessApiService) DeleteVLANProfile(ctx context.Context, ifpName string, localVarOptionals *AccessApiDeleteVLANProfileOpts) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -221,16 +221,16 @@ func (a *AccessApiService) AccessVlanProfilesDeletePost(ctx context.Context, ifp
 AccessApiService Deletes VLAN profiles.
 Deletes all VLAN profile objects, optionally filtered by the physical interface.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param optional nil or *AccessApiAccessVlanProfilesFlushPostOpts - Optional Parameters:
+ * @param optional nil or *AccessApiFlushVLANProfilesOpts - Optional Parameters:
      * @param "IfpName" (optional.String) -  The physical interface.
 
 */
 
-type AccessApiAccessVlanProfilesFlushPostOpts struct {
+type AccessApiFlushVLANProfilesOpts struct {
 	IfpName optional.String
 }
 
-func (a *AccessApiService) AccessVlanProfilesFlushPost(ctx context.Context, localVarOptionals *AccessApiAccessVlanProfilesFlushPostOpts) (*http.Response, error) {
+func (a *AccessApiService) FlushVLANProfiles(ctx context.Context, localVarOptionals *AccessApiFlushVLANProfilesOpts) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Post")
 		localVarPostBody   interface{}
@@ -296,16 +296,16 @@ func (a *AccessApiService) AccessVlanProfilesFlushPost(ctx context.Context, loca
 AccessApiService Lists VLAN profiles
 Lists all VLAN profiles, optionally filtered by physical interface.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param optional nil or *AccessApiAccessVlanProfilesGetOpts - Optional Parameters:
+ * @param optional nil or *AccessApiGetVLANProfilesOpts - Optional Parameters:
      * @param "IfpName" (optional.String) -  The physical interface name.
 @return []VlanProfileObject
 */
 
-type AccessApiAccessVlanProfilesGetOpts struct {
+type AccessApiGetVLANProfilesOpts struct {
 	IfpName optional.String
 }
 
-func (a *AccessApiService) AccessVlanProfilesGet(ctx context.Context, localVarOptionals *AccessApiAccessVlanProfilesGetOpts) ([]VlanProfileObject, *http.Response, error) {
+func (a *AccessApiService) GetVLANProfiles(ctx context.Context, localVarOptionals *AccessApiGetVLANProfilesOpts) ([]VlanProfileObject, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
@@ -391,16 +391,16 @@ AccessApiService Updates VLAN profiles.
 Creates or replaces all VLAN profiles with the list of profiles in the request body, optionally filtered by the physical interface.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param body List of VLAN profile objects.
- * @param optional nil or *AccessApiAccessVlanProfilesPutOpts - Optional Parameters:
+ * @param optional nil or *AccessApiStoreVLANProfilesOpts - Optional Parameters:
      * @param "IfpName" (optional.String) -  The physical interface name.
 
 */
 
-type AccessApiAccessVlanProfilesPutOpts struct {
+type AccessApiStoreVLANProfilesOpts struct {
 	IfpName optional.String
 }
 
-func (a *AccessApiService) AccessVlanProfilesPut(ctx context.Context, body []VlanProfileObject, localVarOptionals *AccessApiAccessVlanProfilesPutOpts) (*http.Response, error) {
+func (a *AccessApiService) StoreVLANProfiles(ctx context.Context, body []VlanProfileObject, localVarOptionals *AccessApiStoreVLANProfilesOpts) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}

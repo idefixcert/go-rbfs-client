@@ -20,8 +20,8 @@ type mockActionsAPI struct {
 	mock.Mock
 }
 
-func (m *mockActionsAPI) ActionsPingPost(ctx context.Context, destinationIP string,
-	localVarOptionals *state.ActionsApiActionsPingPostOpts) (state.PingStatus, *http.Response, error) {
+func (m *mockActionsAPI) Ping(ctx context.Context, destinationIP string,
+	localVarOptionals *state.ActionsApiPingOpts) (state.PingStatus, *http.Response, error) {
 	args := m.Called(ctx, destinationIP, localVarOptionals)
 	status, ok := args.Get(0).(state.PingStatus)
 	if !ok {

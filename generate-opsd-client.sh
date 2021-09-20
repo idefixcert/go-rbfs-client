@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: BSD-3-Clause
 #
 
-wget https://documents.rtbrick.com/21_8_1/api/api/swagger_opsd.yaml -O opsd-openapi.yaml
+#wget https://documents.rtbrick.com/21_8_1/api/api/swagger_opsd.yaml -O opsd-openapi.yaml
 
 # Generate OPSD client from OPSD OpenAPI specification
 docker run --rm -v ${PWD}:/local swaggerapi/swagger-codegen-cli-v3 generate \
@@ -20,7 +20,7 @@ rm ./pkg/rbfs/state/git_push.sh
 rm ./pkg/rbfs/state/README.md
 rm -rf ./pkg/rbfs/state/docs
 rm -rf ./pkg/rbfs/state/api
-rm opsd-openapi.yaml
+#rm opsd-openapi.yaml
 
 #format the code
 gofmt -w .
