@@ -11,17 +11,4 @@ package state
 
 // BGP peerings grouped by instance.
 type BgpInstancePeerings struct {
-	// BGP instance name
-	InstanceName string `json:"instance_name,omitempty"`
-	// The local AS number.
-	Asn int32 `json:"asn,omitempty"`
-	// The local router identifier.
-	RouterId string `json:"router_id,omitempty"`
-	// The BGP host name.
-	HostName string `json:"host_name,omitempty"`
-	// The BGP domain name.
-	DomainName string `json:"domain_name,omitempty"`
-	// The BGP cluster ID.
-	ClusterId string               `json:"cluster_id,omitempty"`
-	Peerings  *BgpInstancePeerings `json:"peerings,omitempty"`
 }
