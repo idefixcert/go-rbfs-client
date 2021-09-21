@@ -24,5 +24,5 @@ type BgpInstancePeeringsSummary struct {
 	// Number of peerings in established state.
 	EstablishedCount int32 `json:"established_count,omitempty"`
 	// Array of BGP peering references.
-	Peers []BgpPeeringRef `json:"peers,omitempty"`
+	Peerings []BgpPeeringRef `json:"peerings,omitempty"`
 }
