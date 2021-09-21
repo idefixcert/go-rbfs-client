@@ -9,7 +9,7 @@
  */
 package state
 
-// A reference to a BGP peering. This information can be used to obtain the more detailed BgpPeering object.
+// A reference to a BGP peering. This information can be used to obtain the more detailed BGPPeering object.
 type BgpPeeringRef struct {
 	// The administrative peering state.
 	AdministrativeState string    `json:"administrative_state,omitempty"`

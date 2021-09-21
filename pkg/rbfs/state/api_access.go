@@ -31,7 +31,7 @@ Injects a single VLAN profile object into the global VLAN profile BDS table.  A 
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param ifpName The physical interface.
  * @param optional nil or *AccessApiAddVLANProfileOpts - Optional Parameters:
-     * @param "Body" (optional.Interface of VlanProfileObject) -
+     * @param "Body" (optional.Interface of VlanProfile) -
      * @param "OuterVlanMin" (optional.Int32) -  The outer VLAN range minimum value.
      * @param "OuterVlanMax" (optional.Int32) -  The outer VLAN range maximum value.
      * @param "InnerVlanMin" (optional.Int32) -  The inner VLAN range minimum value.
@@ -298,20 +298,20 @@ Lists all VLAN profiles, optionally filtered by physical interface.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *AccessApiGetVLANProfilesOpts - Optional Parameters:
      * @param "IfpName" (optional.String) -  The physical interface name.
-@return []VlanProfileObject
+@return []VlanProfile
 */
 
 type AccessApiGetVLANProfilesOpts struct {
 	IfpName optional.String
 }
 
-func (a *AccessApiService) GetVLANProfiles(ctx context.Context, localVarOptionals *AccessApiGetVLANProfilesOpts) ([]VlanProfileObject, *http.Response, error) {
+func (a *AccessApiService) GetVLANProfiles(ctx context.Context, localVarOptionals *AccessApiGetVLANProfilesOpts) ([]VlanProfile, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Get")
 		localVarPostBody    interface{}
 		localVarFileName    string
 		localVarFileBytes   []byte
-		localVarReturnValue []VlanProfileObject
+		localVarReturnValue []VlanProfile
 	)
 
 	// create path and map variables
@@ -371,7 +371,7 @@ func (a *AccessApiService) GetVLANProfiles(ctx context.Context, localVarOptional
 			error: localVarHttpResponse.Status,
 		}
 		if localVarHttpResponse.StatusCode == 200 {
-			var v []VlanProfileObject
+			var v []VlanProfile
 			err = a.client.decode(&v, localVarBody, localVarHttpResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -400,7 +400,7 @@ type AccessApiStoreVLANProfilesOpts struct {
 	IfpName optional.String
 }
 
-func (a *AccessApiService) StoreVLANProfiles(ctx context.Context, body []VlanProfileObject, localVarOptionals *AccessApiStoreVLANProfilesOpts) (*http.Response, error) {
+func (a *AccessApiService) StoreVLANProfiles(ctx context.Context, body []VlanProfile, localVarOptionals *AccessApiStoreVLANProfilesOpts) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}

@@ -10,7 +10,7 @@
 package state
 
 // List of VLAN profile objects
-type VlanProfileObject struct {
+type VlanProfile struct {
 	// Physical interface.
 	IfpName string `json:"ifp_name"`
 	// Outer VLAN range minimum value.

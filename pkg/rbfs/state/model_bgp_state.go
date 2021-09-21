@@ -12,7 +12,7 @@ package state
 // BgpState : BGP FSM state.
 type BgpState string
 
-// List of BgpState
+// List of BGPState
 const (
 	CONNECT_BgpState      BgpState = "CONNECT"
 	IDLE_BgpState         BgpState = "IDLE"
