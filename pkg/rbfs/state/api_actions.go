@@ -27,10 +27,12 @@ type ActionsApiService service
 
 /*
 ActionsApiService Pings the given destination.
-Pings the given destination from the specified source IP or source IFL with the provided settings. Either the input is an IPv4 or IPv6 address, or it is considered as an domain name. The domain name is resolved via dns A record lookup, the first entry will be taken.
+Pings the given destination from the specified source IP or source IFL with the provided settings.  Three options exist to specify the ping destination:  1. Use &#x60;destination_ip&#x60; to specify the destination IP address in IPv6 or IPv4 format. 2. Use &#x60;destination_aaaa&#x60; to query the DNS for an AAAA record for the specified host name. 3. Use &#x60;destination_a&#x60; to query the DNS for an A record for the specified host name.  The precedence is in the above ordering if multiple destinations are specified. An error is returned if no destination is specified.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param destinationIp Destination IPv4 address, IPv6 address or domain name
  * @param optional nil or *ActionsApiPingOpts - Optional Parameters:
+     * @param "DestinationIp" (optional.String) -  Destination IPv4 or IPv6 address
+     * @param "DestinationAaaa" (optional.String) -  Destination hostname to query DNS for an AAAA record (IPv6 address)
+     * @param "DestinationA" (optional.String) -  Destination hostname to query DNS for an A record (IPv4 address)
      * @param "SourceIp" (optional.String) -  Source IPv4 or IPv6 address
      * @param "SourceIfl" (optional.String) -  Source interface name.
      * @param "InstanceName" (optional.String) -  Routing instance name
@@ -42,16 +44,19 @@ Pings the given destination from the specified source IP or source IFL with the 
 */
 
 type ActionsApiPingOpts struct {
-	SourceIp     optional.String
-	SourceIfl    optional.String
-	InstanceName optional.String
-	Count        optional.Int32
-	Interval     optional.Float32
-	Size         optional.Int32
-	Ttl          optional.Int32
+	DestinationIp   optional.String
+	DestinationAaaa optional.String
+	DestinationA    optional.String
+	SourceIp        optional.String
+	SourceIfl       optional.String
+	InstanceName    optional.String
+	Count           optional.Int32
+	Interval        optional.Float32
+	Size            optional.Int32
+	Ttl             optional.Int32
 }
 
-func (a *ActionsApiService) Ping(ctx context.Context, destinationIp string, localVarOptionals *ActionsApiPingOpts) (PingStatus, *http.Response, error) {
+func (a *ActionsApiService) Ping(ctx context.Context, localVarOptionals *ActionsApiPingOpts) (PingStatus, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Post")
 		localVarPostBody    interface{}
@@ -67,7 +72,15 @@ func (a *ActionsApiService) Ping(ctx context.Context, destinationIp string, loca
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	localVarQueryParams.Add("destination_ip", parameterToString(destinationIp, ""))
+	if localVarOptionals != nil && localVarOptionals.DestinationIp.IsSet() {
+		localVarQueryParams.Add("destination_ip", parameterToString(localVarOptionals.DestinationIp.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.DestinationAaaa.IsSet() {
+		localVarQueryParams.Add("destination_aaaa", parameterToString(localVarOptionals.DestinationAaaa.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.DestinationA.IsSet() {
+		localVarQueryParams.Add("destination_a", parameterToString(localVarOptionals.DestinationA.Value(), ""))
+	}
 	if localVarOptionals != nil && localVarOptionals.SourceIp.IsSet() {
 		localVarQueryParams.Add("source_ip", parameterToString(localVarOptionals.SourceIp.Value(), ""))
 	}
@@ -153,10 +166,12 @@ func (a *ActionsApiService) Ping(ctx context.Context, destinationIp string, loca
 
 /*
 ActionsApiService Traces the route to the given destination IP address.
-Traces the route to the given IPv4 or IPv6 destination IP address  from the specified source IP or source IFL with the provided settings.
+Traces the route to the given destination from the specified source IP or source IFL with the provided settings.  Three options exist to specify the traceroute destination:  1. Use &#x60;destination_ip&#x60; to specify the destination IP address in IPv6 or IPv4 format. 2. Use &#x60;destination_aaaa&#x60; to query the DNS for an AAAA record for the specified host name. 3. Use &#x60;destination_a&#x60; to query the DNS for an A record for the specified host name.  The precedence is in the above ordering if multiple destinations are specified. An error is returned if no destination is specified.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param destinationIp Destination IPv4 or IPv6 address
  * @param optional nil or *ActionsApiTracerouteOpts - Optional Parameters:
+     * @param "DestinationIp" (optional.String) -  Destination IPv4 or IPv6 address
+     * @param "DestinationAaaa" (optional.String) -  Destination hostname to query DNS for an AAAA record (IPv6 address)
+     * @param "DestinationA" (optional.String) -  Destination hostname to query DNS for an A record (IPv4 address)
      * @param "SourceIp" (optional.String) -  Source IPv4 or IPv6 address
      * @param "SourceIfl" (optional.String) -  Source interface name.
      * @param "InstanceName" (optional.String) -  Routing instance name
@@ -167,15 +182,18 @@ Traces the route to the given IPv4 or IPv6 destination IP address  from the spec
 */
 
 type ActionsApiTracerouteOpts struct {
-	SourceIp     optional.String
-	SourceIfl    optional.String
-	InstanceName optional.String
-	MaxHops      optional.Int32
-	Size         optional.Int32
-	Interval     optional.Float32
+	DestinationIp   optional.String
+	DestinationAaaa optional.String
+	DestinationA    optional.String
+	SourceIp        optional.String
+	SourceIfl       optional.String
+	InstanceName    optional.String
+	MaxHops         optional.Int32
+	Size            optional.Int32
+	Interval        optional.Float32
 }
 
-func (a *ActionsApiService) Traceroute(ctx context.Context, destinationIp string, localVarOptionals *ActionsApiTracerouteOpts) (Traceroute, *http.Response, error) {
+func (a *ActionsApiService) Traceroute(ctx context.Context, localVarOptionals *ActionsApiTracerouteOpts) (Traceroute, *http.Response, error) {
 	var (
 		localVarHttpMethod  = strings.ToUpper("Post")
 		localVarPostBody    interface{}
@@ -191,7 +209,15 @@ func (a *ActionsApiService) Traceroute(ctx context.Context, destinationIp string
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
-	localVarQueryParams.Add("destination_ip", parameterToString(destinationIp, ""))
+	if localVarOptionals != nil && localVarOptionals.DestinationIp.IsSet() {
+		localVarQueryParams.Add("destination_ip", parameterToString(localVarOptionals.DestinationIp.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.DestinationAaaa.IsSet() {
+		localVarQueryParams.Add("destination_aaaa", parameterToString(localVarOptionals.DestinationAaaa.Value(), ""))
+	}
+	if localVarOptionals != nil && localVarOptionals.DestinationA.IsSet() {
+		localVarQueryParams.Add("destination_a", parameterToString(localVarOptionals.DestinationA.Value(), ""))
+	}
 	if localVarOptionals != nil && localVarOptionals.SourceIp.IsSet() {
 		localVarQueryParams.Add("source_ip", parameterToString(localVarOptionals.SourceIp.Value(), ""))
 	}
