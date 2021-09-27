@@ -20,6 +20,21 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func expectedPing(hostname string) *state.ActionsApiPingOpts {
+
+	return &state.ActionsApiPingOpts{
+		DestinationIp:   commons.OptionalIP(nil),
+		DestinationAaaa: commons.OptionalString(""),
+		DestinationA:    commons.OptionalString(hostname),
+		SourceIp:        commons.OptionalIP(nil),
+		SourceIfl:       commons.OptionalString(""),
+		Count:           commons.OptionalInt32(5),
+		Interval:        commons.OptionalFloat32(1.0),
+		InstanceName:    commons.OptionalString("default"),
+	}
+
+}
+
 //nolint:dupl //it's a unit test
 func Test_defaultService_Run(t *testing.T) {
 	endpoint, err := url.Parse("http://localhost:8080")
@@ -37,24 +52,24 @@ func Test_defaultService_Run(t *testing.T) {
 	}{
 		{
 			ping: func(t *testing.T) *Ping {
-				p, err := NewPing("http://rtbrick.com")
+				p, err := NewPing(DestinationHostNameA("www.rtbrick.com"))
 				require.NoError(t, err)
 				return p
 			},
 			setup: func(t *testing.T, actionApi *mockActionsAPI) {
-				actionApi.On("Ping", mock.Anything, "http://rtbrick.com", mock.Anything).
-					Return(state.PingStatus{Command: "http://rtbrick.com"}, nil)
+				actionApi.On("Ping", mock.Anything, expectedPing("www.rtbrick.com")).
+					Return(state.PingStatus{Command: "www.rtbrick.com"}, nil)
 			},
-			want: state.PingStatus{Command: "http://rtbrick.com"},
+			want: state.PingStatus{Command: "www.rtbrick.com"},
 		},
 		{
 			ping: func(t *testing.T) *Ping {
-				p, err := NewPing("http://rtbrick.com")
+				p, err := NewPing(DestinationHostNameA("www.rtbrick.com"))
 				require.NoError(t, err)
 				return p
 			},
 			setup: func(t *testing.T, actionApi *mockActionsAPI) {
-				actionApi.On("Ping", mock.Anything, "http://rtbrick.com", mock.Anything).
+				actionApi.On("Ping", mock.Anything, expectedPing("www.rtbrick.com")).
 					Return(state.PingStatus{}, fmt.Errorf("test"))
 			},
 			wantErr: true,
@@ -102,34 +117,34 @@ func Test_defaultService_RunAll(t *testing.T) {
 		{
 			ping: func(t *testing.T) []*Ping {
 				var result []*Ping
-				p, err := NewPing("http://rtbrick.com")
+				p, err := NewPing(DestinationHostNameA("www.rtbrick.com"))
 				require.NoError(t, err)
 				result = append(result, p)
-				p, err = NewPing("http://google.de")
+				p, err = NewPing(DestinationHostNameA("www.google.de"))
 				require.NoError(t, err)
 				result = append(result, p)
 				return result
 			},
 			setup: func(t *testing.T, actionApi *mockActionsAPI) {
-				actionApi.On("Ping", mock.Anything, "http://rtbrick.com", mock.Anything).
-					Return(state.PingStatus{Command: "http://rtbrick.com"}, nil).
+				actionApi.On("Ping", mock.Anything, expectedPing("www.rtbrick.com")).
+					Return(state.PingStatus{Command: "www.rtbrick.com"}, nil).
 					Run(func(args mock.Arguments) { time.Sleep(time.Second * 3) })
-				actionApi.On("Ping", mock.Anything, "http://google.de", mock.Anything).
-					Return(state.PingStatus{Command: "http://google.de"}, nil).
+				actionApi.On("Ping", mock.Anything, expectedPing("www.google.de")).
+					Return(state.PingStatus{Command: "www.google.de"}, nil).
 					Run(func(args mock.Arguments) { time.Sleep(time.Second * 2) })
 			},
-			want: []state.PingStatus{{Command: "http://rtbrick.com"}, {Command: "http://google.de"}},
+			want: []state.PingStatus{{Command: "www.rtbrick.com"}, {Command: "www.google.de"}},
 		},
 		{
 			ping: func(t *testing.T) []*Ping {
 				var result []*Ping
-				p, err := NewPing("http://rtbrick.com")
+				p, err := NewPing(DestinationHostNameA("www.rtbrick.com"))
 				require.NoError(t, err)
 				result = append(result, p)
 				return result
 			},
 			setup: func(t *testing.T, actionApi *mockActionsAPI) {
-				actionApi.On("Ping", mock.Anything, "http://rtbrick.com", mock.Anything).
+				actionApi.On("Ping", mock.Anything, expectedPing("www.rtbrick.com")).
 					Return(state.PingStatus{}, fmt.Errorf("test"))
 			},
 			wantErr: true,

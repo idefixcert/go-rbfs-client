@@ -5,7 +5,18 @@
 
 package commons
 
-import "github.com/antihax/optional"
+import (
+	"net"
+
+	"github.com/antihax/optional"
+)
+
+func OptionalIP(ipAddress net.IP) optional.String {
+	if ipAddress == nil {
+		return optional.EmptyString()
+	}
+	return optional.NewString(ipAddress.String())
+}
 
 func OptionalString(s string) optional.String {
 	if s == "" {

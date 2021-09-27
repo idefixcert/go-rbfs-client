@@ -14,7 +14,9 @@ import (
 type (
 	// Ping contains all arguments to ping a destination IP address or hostname
 	Ping struct {
-		destination     string
+		destinationIP   net.IP
+		destinationA    string
+		destinationAAAA string
 		sourceInterface string
 		sourceIP        net.IP
 		instanceName    string
@@ -27,9 +29,8 @@ type (
 )
 
 // NewPing creates a new ping command
-func NewPing(destination string, options ...Option) (*Ping, error) {
+func NewPing(options ...Option) (*Ping, error) {
 	p := &Ping{
-		destination:  destination,
 		instanceName: "default",
 		count:        5,
 		interval:     time.Second,
@@ -42,7 +43,42 @@ func NewPing(destination string, options ...Option) (*Ping, error) {
 		}
 	}
 
+	if p.destinationIP == nil && p.destinationA == "" && p.destinationAAAA == "" {
+		return nil, fmt.Errorf("ping destination not specified")
+	}
+
 	return p, nil
+}
+
+// DestinationIP sets the ping destination IP address.
+// Override destination host name settings, if any.
+func DestinationIP(ipAddr net.IP) Option {
+	return func(p *Ping) error {
+		p.destinationIP = ipAddr
+		p.destinationA = ""
+		p.destinationAAAA = ""
+		return nil
+	}
+}
+
+// DestinationHostNameA sets the destination hostname that shall be translated to an IPv4 address (DNS A record)
+func DestinationHostNameA(hostname string) Option {
+	return func(p *Ping) error {
+		p.destinationIP = nil
+		p.destinationA = hostname
+		p.destinationAAAA = ""
+		return nil
+	}
+}
+
+// DestinationHostNameAAAA sets the destination hostname that shall be translated to an IPv6 address (DNS AAAA record)
+func DestinationHostNameAAAA(hostname string) Option {
+	return func(p *Ping) error {
+		p.destinationIP = nil
+		p.destinationA = ""
+		p.destinationAAAA = hostname
+		return nil
+	}
 }
 
 // SourceIP specifies the source IP address
@@ -131,6 +167,14 @@ func (p *Ping) Interval() time.Duration {
 	return p.interval
 }
 
-func (p *Ping) Destination() string {
-	return p.destination
+func (p *Ping) DestinationIP() net.IP {
+	return p.destinationIP
+}
+
+func (p *Ping) DestinationHostNameA() string {
+	return p.destinationA
+}
+
+func (p *Ping) DestinationHostNameAAAA() string {
+	return p.destinationAAAA
 }

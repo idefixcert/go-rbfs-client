@@ -26,8 +26,7 @@ type (
 	}
 
 	ActionsAPI interface {
-		Ping(ctx context.Context, destinationIP string,
-			localVarOptionals *state.ActionsApiPingOpts) (state.PingStatus, *http.Response, error)
+		Ping(ctx context.Context, localVarOptionals *state.ActionsApiPingOpts) (state.PingStatus, *http.Response, error)
 	}
 
 	// Service pings given destinations.
@@ -46,24 +45,22 @@ func (s *defaultService) Run(ctx commons.RbfsContext, ping *Ping) (state.PingSta
 		return state.PingStatus{}, err
 	}
 
-	var sourceIP string
-	if ping.sourceIP != nil {
-		sourceIP = ping.sourceIP.String()
-	}
-
 	const scaleToMilliPrecision = 1000
 	interval := float32(math.Round(ping.interval.Seconds()*scaleToMilliPrecision) / scaleToMilliPrecision)
 
 	optionalPingPostArgs := &state.ActionsApiPingOpts{
-		SourceIp:     commons.OptionalString(sourceIP),
-		SourceIfl:    commons.OptionalString(ping.sourceInterface),
-		Count:        commons.OptionalInt32(ping.count),
-		Interval:     commons.OptionalFloat32(interval),
-		InstanceName: commons.OptionalString(ping.instanceName),
+		DestinationIp:   commons.OptionalIP(ping.destinationIP),
+		DestinationAaaa: commons.OptionalString(ping.destinationAAAA),
+		DestinationA:    commons.OptionalString(ping.destinationA),
+		SourceIp:        commons.OptionalIP(ping.sourceIP),
+		SourceIfl:       commons.OptionalString(ping.sourceInterface),
+		Count:           commons.OptionalInt32(ping.count),
+		Interval:        commons.OptionalFloat32(interval),
+		InstanceName:    commons.OptionalString(ping.instanceName),
 	}
 
 	//nolint:bodyclose //generated code
-	pingStatus, _, err := api.Ping(ctx, ping.destination, optionalPingPostArgs)
+	pingStatus, _, err := api.Ping(ctx, optionalPingPostArgs)
 	if err != nil {
 		return state.PingStatus{}, err
 	}

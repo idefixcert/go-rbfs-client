@@ -16,30 +16,31 @@ import (
 //nolint:funlen //it's a test
 func TestNewPing(t *testing.T) {
 	tests := []struct {
-		name        string
-		destination string
-		options     []Option
-		want        *Ping
-		wantErr     string
+		name    string
+		options []Option
+		want    *Ping
+		wantErr string
 	}{
 		{
-			name:        "defaults",
-			destination: "www.rtbrick.com",
+			name: "defaults",
+			options: []Option{
+				DestinationHostNameA("www.rtbrick.com"),
+			},
 			want: &Ping{
-				destination:  "www.rtbrick.com",
+				destinationA: "www.rtbrick.com",
 				instanceName: "default",
 				count:        5,
 				interval:     time.Second,
 			},
 		}, {
-			name:        "options",
-			destination: "www.rtbrick.com",
+			name: "options",
 			options: []Option{
+				DestinationIP(net.ParseIP("8.8.8.8")),
 				SourceIP(net.ParseIP("192.0.2.1")), Count(8),
 				Interval(5 * time.Second), InstanceName("instance"),
 			},
 			want: &Ping{
-				destination:     "www.rtbrick.com",
+				destinationIP:   net.ParseIP("8.8.8.8"),
 				sourceInterface: "",
 				sourceIP:        net.ParseIP("192.0.2.1"),
 				instanceName:    "instance",
@@ -47,66 +48,66 @@ func TestNewPing(t *testing.T) {
 				interval:        5 * time.Second,
 			},
 		}, {
-			name:        "source interface",
-			destination: "www.rtbrick.com",
+			name: "source interface",
 			options: []Option{
+				DestinationHostNameAAAA("www.rtbrick.com"),
 				SourceInterface("ma1"),
 			},
 			want: &Ping{
-				destination:     "www.rtbrick.com",
+				destinationAAAA: "www.rtbrick.com",
 				sourceInterface: "ma1",
 				instanceName:    "default",
 				count:           5,
 				interval:        time.Second,
 			},
 		}, {
-			name:        "source interface and source IP are mutual exclusive 1",
-			destination: "www.rtbrick.com",
+			name: "source interface and source IP are mutual exclusive 1",
 			options: []Option{
+				DestinationHostNameA("www.rtbrick.com"),
 				SourceInterface("ma1"),
 				SourceIP(net.ParseIP("192.0.2.1")),
 			},
 			wantErr: "source interface and source IP are mutual exclusive",
 		}, {
-			name:        "source interface and source IP are mutual exclusive 2",
-			destination: "www.rtbrick.com",
+			name: "source interface and source IP are mutual exclusive 2",
 			options: []Option{
+				DestinationHostNameA("www.rtbrick.com"),
 				SourceIP(net.ParseIP("192.0.2.1")),
 				SourceInterface("ma1"),
 			},
 			wantErr: "source interface and source IP are mutual exclusive",
 		}, {
-			name:        "count value must be greater than 0",
-			destination: "www.rtbrick.com",
+			name: "count value must be greater than 0",
 			options: []Option{
+				DestinationHostNameA("www.rtbrick.com"),
 				Count(0),
 			},
 			wantErr: "count value must be greater than 0",
 		}, {
-			name:        "count value must be less or equal than 10",
-			destination: "www.rtbrick.com",
+			name: "count value must be less or equal than 10",
 			options: []Option{
+				DestinationHostNameA("www.rtbrick.com"),
 				Count(11),
 			},
 			wantErr: "count value must be less or equal than 10",
 		}, {
-			name:        "interval must not be less than 1ms",
-			destination: "www.rtbrick.com",
+			name: "interval must not be less than 1ms",
 			options: []Option{
+				DestinationHostNameA("www.rtbrick.com"),
 				Interval(time.Nanosecond),
 			},
 			wantErr: "interval must not be less than 1ms",
 		}, {
-			name:        "interval must not exceed 10s",
-			destination: "www.rtbrick.com",
+			name: "interval must not exceed 10s",
 			options: []Option{
+				DestinationHostNameA("www.rtbrick.com"),
 				Interval(time.Minute),
 			},
 			wantErr: "interval must not exceed 10s",
 		}, {
-			name:        "instance name must not be empty",
-			destination: "www.rtbrick.com",
+			name: "instance name must not be empty",
 			options: []Option{
+				DestinationHostNameA("www.rtbrick.com"),
 				InstanceName(""),
 			},
 			wantErr: "instance name must not be empty",
@@ -114,7 +115,7 @@ func TestNewPing(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewPing(tt.destination, tt.options...)
+			got, err := NewPing(tt.options...)
 			if tt.wantErr != "" {
 				require.EqualError(t, err, tt.wantErr)
 				return
@@ -125,7 +126,7 @@ func TestNewPing(t *testing.T) {
 			require.Equal(t, tt.want.SourceIP(), got.SourceIP())
 			require.Equal(t, tt.want.Count(), got.Count())
 			require.Equal(t, tt.want.Interval(), got.Interval())
-			require.Equal(t, tt.want.Destination(), got.Destination())
+			require.Equal(t, tt.want.DestinationIP(), got.DestinationIP())
 		})
 	}
 }
