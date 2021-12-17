@@ -9,13 +9,17 @@
  */
 package state
 
+import (
+	"time"
+)
+
 // PIM instance neighbor settings.
 type PimInstanceNeighbor struct {
 	PimNeighborState string `json:"pim_neighbor_state,omitempty"`
 	// Last PIM neighbor state transition.
-	LastStateTransition string `json:"last_state_transition,omitempty"`
-	IflName             string `json:"ifl_name,omitempty"`
-	PimIflState         string `json:"pim_ifl_state,omitempty"`
+	LastStateTransition time.Time `json:"last_state_transition,omitempty"`
+	IflName             string    `json:"ifl_name,omitempty"`
+	PimIflState         string    `json:"pim_ifl_state,omitempty"`
 	// The primary IPv4 address of the PIM interface.
 	Ipv4Address string `json:"ipv4_address,omitempty"`
 	// The primary IPv6 address of the PIM interface.
@@ -23,11 +27,10 @@ type PimInstanceNeighbor struct {
 	// The PIM interface generation ID.
 	GenerationId int32 `json:"generation_id,omitempty"`
 	// The priority of this interface in the designated router election.
-	DesignatedRouterPriority int32                `json:"designated_router_priority,omitempty"`
-	DesignatedRouter         *PimDesignatedRouter `json:"designated_router,omitempty"`
-	// The configured hold down interval in seconds.
-	HoldDownTime int32 `json:"hold_down_time,omitempty"`
-	// The hold down timer value in seconds.
-	HoldDownTimer int32                        `json:"hold_down_timer,omitempty"`
-	Neighbor      *PimInstanceNeighborNeighbor `json:"neighbor,omitempty"`
+	DesignatedRouterPriority int32 `json:"designated_router_priority,omitempty"`
+	// DR elections count
+	DesignatedRouterElections int32                        `json:"designated_router_elections,omitempty"`
+	DesignatedRouter          *PimDesignatedRouter         `json:"designated_router,omitempty"`
+	Timers                    *PimInstanceNeighborTimers   `json:"timers,omitempty"`
+	Neighbor                  *PimInstanceNeighborNeighbor `json:"neighbor,omitempty"`
 }
