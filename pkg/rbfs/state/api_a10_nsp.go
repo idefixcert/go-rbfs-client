@@ -12,6 +12,7 @@ package state
 import (
 	"context"
 	"fmt"
+	"github.com/antihax/optional"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -356,12 +357,18 @@ func (a *A10NSPApiService) RemoveA10NSPL2XEndpoint(ctx context.Context, lagInter
 A10NSPApiService Stores a L2X endpoint.
 Stores a L2X endpoints by either  creating a new L2X endpoint on the specified LAG interface with the specified S-VLAN or  updating an existing L2X endpoint configuration.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body
  * @param lagInterfaceName The link aggregation (LAG) interface name.
  * @param sVlan The ANP VLAN ID.
+ * @param optional nil or *A10NSPApiStoreA10NSPL2XEndpointOpts - Optional Parameters:
+     * @param "Body" (optional.Interface of A10nspConfig) -
 
 */
-func (a *A10NSPApiService) StoreA10NSPL2XEndpoint(ctx context.Context, body A10nspConfig, lagInterfaceName string, sVlan int32) (*http.Response, error) {
+
+type A10NSPApiStoreA10NSPL2XEndpointOpts struct {
+	Body optional.Interface
+}
+
+func (a *A10NSPApiService) StoreA10NSPL2XEndpoint(ctx context.Context, lagInterfaceName string, sVlan int32, localVarOptionals *A10NSPApiStoreA10NSPL2XEndpointOpts) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -396,7 +403,11 @@ func (a *A10NSPApiService) StoreA10NSPL2XEndpoint(ctx context.Context, body A10n
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &body
+	if localVarOptionals != nil && localVarOptionals.Body.IsSet() {
+
+		localVarOptionalBody := localVarOptionals.Body.Value()
+		localVarPostBody = &localVarOptionalBody
+	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -428,10 +439,16 @@ func (a *A10NSPApiService) StoreA10NSPL2XEndpoint(ctx context.Context, body A10n
 A10NSPApiService Updates all L2X endpoint configurations.
 Updates all L2X endpoint configurations by  - adding new L2X endpoints, - updating existing L2X endpoints and - removing all L2X endpoints not listed in the request entity anymore.  An empty array removes all L2X endpoints.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body
+ * @param optional nil or *A10NSPApiStoreA10NSPL2XEndpointsOpts - Optional Parameters:
+     * @param "Body" (optional.Interface of []A10nspConfig) -
 
 */
-func (a *A10NSPApiService) StoreA10NSPL2XEndpoints(ctx context.Context, body []A10nspConfig) (*http.Response, error) {
+
+type A10NSPApiStoreA10NSPL2XEndpointsOpts struct {
+	Body optional.Interface
+}
+
+func (a *A10NSPApiService) StoreA10NSPL2XEndpoints(ctx context.Context, localVarOptionals *A10NSPApiStoreA10NSPL2XEndpointsOpts) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -464,7 +481,11 @@ func (a *A10NSPApiService) StoreA10NSPL2XEndpoints(ctx context.Context, body []A
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &body
+	if localVarOptionals != nil && localVarOptionals.Body.IsSet() {
+
+		localVarOptionalBody := localVarOptionals.Body.Value()
+		localVarPostBody = &localVarOptionalBody
+	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -496,11 +517,17 @@ func (a *A10NSPApiService) StoreA10NSPL2XEndpoints(ctx context.Context, body []A
 A10NSPApiService Updates all L2X endpoint configurations for a LAG interface.
 Updates all L2X endpoint configurations for a LAG interface by  - adding new L2X endpoints, - updating existing L2X endpoints and - removing all L2X endpoints not listed in the request entity anymore.  An empty array removes all L2X endpoints from the specified LAG interface.
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body
  * @param lagInterfaceName The link aggregation (LAG) interface name.
+ * @param optional nil or *A10NSPApiStoreA10NSPL2XEndpointsForLAGInterfaceOpts - Optional Parameters:
+     * @param "Body" (optional.Interface of []A10nspConfig) -
 
 */
-func (a *A10NSPApiService) StoreA10NSPL2XEndpointsForLAGInterface(ctx context.Context, body []A10nspConfig, lagInterfaceName string) (*http.Response, error) {
+
+type A10NSPApiStoreA10NSPL2XEndpointsForLAGInterfaceOpts struct {
+	Body optional.Interface
+}
+
+func (a *A10NSPApiService) StoreA10NSPL2XEndpointsForLAGInterface(ctx context.Context, lagInterfaceName string, localVarOptionals *A10NSPApiStoreA10NSPL2XEndpointsForLAGInterfaceOpts) (*http.Response, error) {
 	var (
 		localVarHttpMethod = strings.ToUpper("Put")
 		localVarPostBody   interface{}
@@ -534,7 +561,11 @@ func (a *A10NSPApiService) StoreA10NSPL2XEndpointsForLAGInterface(ctx context.Co
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
 	// body params
-	localVarPostBody = &body
+	if localVarOptionals != nil && localVarOptionals.Body.IsSet() {
+
+		localVarOptionalBody := localVarOptionals.Body.Value()
+		localVarPostBody = &localVarOptionalBody
+	}
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
