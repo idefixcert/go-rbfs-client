@@ -20,7 +20,7 @@ type BgpPeering struct {
 	// The reason for the last BGP reset.
 	LastResetReason string `json:"last_reset_reason,omitempty"`
 	// The local AS number.
-	Asn     int32  `json:"asn,omitempty"`
+	Asn     int64  `json:"asn,omitempty"`
 	IflName string `json:"ifl_name,omitempty"`
 	// The local IPv4 address.
 	Ipv4Address string `json:"ipv4_address,omitempty"`
