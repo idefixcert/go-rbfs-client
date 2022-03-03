@@ -17,4 +17,6 @@ type IsisNeighborNeighbor struct {
 	Ipv4Address string `json:"ipv4_address,omitempty"`
 	// IS-IS neigbor IPv6 address.
 	Ipv6Address string `json:"ipv6_address,omitempty"`
+	// IS-IS neighbor host name.
+	HostName string `json:"host_name,omitempty"`
 }
