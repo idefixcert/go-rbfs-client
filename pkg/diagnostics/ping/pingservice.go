@@ -57,6 +57,8 @@ func (s *defaultService) Run(ctx commons.RbfsContext, ping *Ping) (state.PingSta
 		Count:           commons.OptionalInt32(ping.count),
 		Interval:        commons.OptionalFloat32(interval),
 		InstanceName:    commons.OptionalString(ping.instanceName),
+		Size:            commons.OptionalInt32(ping.size),
+		Ttl:             commons.OptionalInt32(ping.ttl),
 	}
 
 	//nolint:bodyclose //generated code
